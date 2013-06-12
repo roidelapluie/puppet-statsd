@@ -14,7 +14,8 @@
 class statsd (
   $graphite_host = "localhost",
   $graphite_port = 2003,
-  $statsd_port   = 8125
+  $statsd_port   = 8125,
+  $flushinterval = 10000,
 ) {
 
   file { '/etc/statsd/config.js':
@@ -30,8 +31,8 @@ class statsd (
     ensure => present;
   }
   service { "statsd":
-    enable  => true,
-    require => File["/etc/statsd/config.js"]
+    enable    => true,
+    subscribe => File["/etc/statsd/config.js"],
   }
 
 }
